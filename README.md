@@ -3,12 +3,10 @@
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
 ![Libraries](https://img.shields.io/badge/Libraries-scikit--learn%20%7C%20pandas%20%7C%20NumPy-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Status](https://img.shields.io/badge/Academic-PhD%20Research-purple.svg)
 
-> Código e resultados dos dois estudos de caso do artigo *"Integrando o Aprendizado de Máquina e Controle Estatístico da Qualidade: Seleção e Ordenação de Atributos"* (Felix e Silva), parte da tese de doutorado em Ciência da Computação (UFOP).
+> Código e resultados dos dois estudos de caso do artigo *"Integrando o Aprendizado de Máquina e Controle Estatístico da Qualidade: Seleção e Ordenação de Atributos"*, submetido a um periódico em revisão duplo-cega.
 
-> **Aviso sobre os dados do estudo de caso 2 (caminhões).** A base de dados do estudo de caso 2 pertence à empresa que a cedeu e é **confidencial**. Ela **não é pública** e **não está neste repositório**. Quem precisar dela para reproduzir ou ampliar a análise deve entrar em contato com o autor correspondente (josemar.felix@aluno.ufop.edu.br) para **iniciar o processo de solicitação de autorização de liberação dos dados**, que depende da aprovação da empresa. A base do estudo de caso 1 (SECOM) é pública e está incluída.
-
+> **Aviso sobre os dados do estudo de caso 2 (caminhões).** A base de dados do estudo de caso 2 pertence à empresa que a cedeu e é **confidencial**. Ela **não é pública** e **não está neste repositório**. Quem precisar dela para reproduzir ou ampliar a análise deve entrar em contato com o autor correspondente para **iniciar o processo de solicitação de autorização de liberação dos dados**, que depende da aprovação da empresa. Durante a revisão duplo-cega, o contato é feito por meio do editor do periódico; o endereço do autor correspondente será divulgado após a revisão. A base do estudo de caso 1 (SECOM) é pública e está incluída.
 
 ---
 
@@ -22,7 +20,7 @@
 - [Instalação](#instalação)
 - [Como executar](#como-executar)
 - [Resultados](#resultados)
-- [Como citar](#como-citar)
+- [Disponibilidade dos dados](#disponibilidade-dos-dados)
 - [Licença](#licença)
 
 ---
@@ -40,7 +38,7 @@ A pergunta de pesquisa é se índices de CEQ conseguem orientar a ordenação e 
 3. **Equivalência entre rankings** (caderno 3): testes de Friedman e Nemenyi e correlação de Spearman.
 4. **Eliminação regressiva** (caderno 4): para cada ranking, remove-se o pior atributo a cada passo e avalia-se o modelo por validação cruzada estratificada de 5 partições (semente 42), em sete paradigmas com hiperparâmetros padrão: Árvore de Decisão, Floresta Aleatória, *Gradient Boosting*, SVM, Perceptron Multicamadas, Naive Bayes Gaussiano e Regressão Logística (L1).
 5. **Escolha do modelo em cada curva** (caderno 5): critério *Kneedle* (principal) e regra de um desvio-padrão (verificação).
-6. **Comparações** (cadernos 5 a 8): qualidade, número de atributos, tempo, fronteira de Pareto, teste de Mann-Whitney e estabilidade dos rankings (índice Φ de Nogueira, 100 subamostras estratificadas de 50%).
+6. **Comparações** (cadernos 5 a 9): qualidade, número de atributos, tempo, fronteira de Pareto, teste de Mann-Whitney e estabilidade dos rankings (índice Φ de Nogueira, 100 subamostras estratificadas de 50%).
 
 ## Fluxo
 
@@ -69,7 +67,7 @@ flowchart TD
 ├── requirements.txt
 ├── EC1_SECOM/                  # Estudo de caso 1: fabricação de semicondutores (binário)
 │   ├── EC1_README.md
-│   ├── codigo/                 # cadernos 1 a 8
+│   ├── codigo/                 # cadernos 1 a 9
 │   ├── dados/                  # base de entrada (uci-secom.xlsx)
 │   └── resultados/             # planilhas, figuras e tabelas geradas
 └── EC2_Caminhoes/              # Estudo de caso 2: caminhões fora de estrada (5 turmas)
@@ -79,7 +77,7 @@ flowchart TD
     └── resultados/             # planilhas, figuras e tabelas, uma subpasta por turma
 ```
 
-Cada estudo de caso é independente: tem os próprios cadernos, dados e resultados.
+Cada estudo de caso é independente: tem os próprios cadernos, dados e resultados. Os arquivos de código levam o prefixo `EC1_` ou `EC2_`.
 
 ## Os dois estudos de caso
 
@@ -100,7 +98,7 @@ No EC2 não há classe conforme: cada turma faz o papel de classe de referência
 ## Instalação
 
 ```bash
-git clone https://github.com/SEU_USUARIO/spc-feature-selection.git
+git clone <URL-DESTE-REPOSITORIO>
 cd spc-feature-selection
 
 python -m venv venv
@@ -119,33 +117,17 @@ cd trabalho
 jupyter lab
 ```
 
-Execute os cadernos na ordem numérica (1, 2, 2_2, 3, 4, 5, 6, 7, 8). As planilhas geradas ficam em `trabalho/`; a pasta `resultados/` de cada estudo de caso guarda as planilhas que acompanham o artigo. O passo 4 (eliminação regressiva) é o mais demorado: o número de modelos treinados é `rankings × paradigmas × atributos × 5 partições` (e ainda multiplicado por 5 cenários no EC2). Ajuste `n_jobs` ao número de núcleos disponíveis.
+Execute os cadernos na ordem numérica (1, 2, 2_2, 3, 4, 5, 6, 7, 8 e, no EC1, 9). As planilhas geradas ficam em `trabalho/`; a pasta `resultados/` de cada estudo de caso guarda as planilhas que acompanham o artigo. O passo 4 (eliminação regressiva) é o mais demorado: o número de modelos treinados é `rankings × paradigmas × atributos × 5 partições` (e ainda multiplicado por 5 cenários no EC2). Ajuste `n_jobs` ao número de núcleos disponíveis.
 
 ## Resultados
 
 Cada pasta `resultados/` traz as planilhas `Ranking_*.xlsx`, as curvas de eliminação regressiva por paradigma (`Modelos*_CV_Consolidado.xlsx`), o resumo global, as tabelas em LaTeX e as figuras de Pareto. Os números do artigo e a forma de reproduzi-los estão descritos no README de cada estudo de caso.
 
-## Como citar
+## Disponibilidade dos dados
 
-```bibtex
-@phdthesis{Felix2026Tese,
-  title   = {Seleção de Atributos Orientada por Controle Estatístico da Qualidade em Bases Industriais de Grande Porte},
-  author  = {Felix, Josemar Coelho},
-  year    = {2026},
-  school  = {Universidade Federal de Ouro Preto (UFOP)},
-  type    = {Tese de Doutorado},
-  address = {Ouro Preto, MG, Brasil}
-}
-```
-
-O artigo associado está em preparação; a referência será incluída aqui após a publicação.
+- **Estudo de caso 1 (SECOM):** base pública, em `EC1_SECOM/dados/`.
+- **Estudo de caso 2 (caminhões):** a base pertence à empresa que a cedeu e é confidencial. Ela não é pública, e os arquivos com registros individuais (a base e as amostras) foram removidos. Para obter acesso, é preciso contatar o autor correspondente e solicitar a abertura do processo de autorização de liberação dos dados junto à empresa; durante a revisão, o contato é feito por meio do editor do periódico. As planilhas em `EC2_Caminhoes/resultados/` são agregadas e não contêm registros individuais.
 
 ## Licença
 
 Distribuído sob a licença MIT. Veja o arquivo [LICENSE](LICENSE).
-
-
-## Disponibilidade dos dados
-
-- **Estudo de caso 1 (SECOM):** base pública, em `EC1_SECOM/dados/`.
-- **Estudo de caso 2 (caminhões):** a base pertence à empresa que a cedeu e é confidencial. Ela não é pública, e os arquivos com registros individuais (a base e as amostras) foram removidos. Para obter acesso, entre em contato com o autor correspondente (josemar.felix@aluno.ufop.edu.br) e solicite a abertura do processo de autorização de liberação dos dados junto à empresa. As planilhas em `EC2_Caminhoes/resultados/` são agregadas e não contêm registros individuais.
